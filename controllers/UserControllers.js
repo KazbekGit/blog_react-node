@@ -1,10 +1,6 @@
 import { validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import UserModel from "../models/User.js";
-import { getToken } from "../utils.js";
-
-const SALT_ROUNDS = 10;
+import { getPassHash, getToken } from "../utils.js";
 
 export const register = async (req, res) => {
   try {
@@ -21,8 +17,7 @@ export const register = async (req, res) => {
         .status(400)
         .json({ error: `user with ${email} already exist` });
 
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
-    const passHash = await bcrypt.hash(password, salt);
+    const passHash = await getPassHash(password);
 
     const newUser = new UserModel({
       fullName: fullName,
@@ -32,19 +27,15 @@ export const register = async (req, res) => {
     });
 
     const token = getToken(newUser._id);
-    
-    newUser
-      .save()
-      .then(() => {
-        const { password, ...newUserRest } = newUser._doc;
-        res
-          .status(200)
-          .json({ message: "User was created!", user: newUserRest, token });
-      })
-      .catch((err) => {
-        res.status(500).json({ err: err });
-      });
+
+    await newUser.save();
+    const { password: _, ...newUserRest } = newUser._doc;
+    res
+      .status(200)
+      .json({ message: "User was created!", user: newUserRest, token });
   } catch (err) {
-    return res.status(500).json({ err: "User saving error" });
+    return res
+      .status(500)
+      .json({ err: "User saving error", details: err.message });
   }
 };
