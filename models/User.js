@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import crypto from 'crypto'
+
+console.log(crypto.randomBytes(64).toString('hex'))
 
 const UserSchema = new mongoose.Schema(
   {
@@ -15,7 +18,7 @@ const UserSchema = new mongoose.Schema(
       required: false,
       validate: {
         validator: (value) => {
-          /^(ftp|http|https):\/\/[^ "]+$/.test(value);
+          return /^(ftp|http|https):\/\/[^ "]+$/.test(value);
         },
       },
     },
