@@ -1,6 +1,6 @@
 import { pathDB } from "./vars.js";
 import express from "express";
-import { validators } from "./validators/auth.js";
+import { registerValidators, loginValidators } from "./validators/auth.js";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -20,7 +20,8 @@ app.get("/", (req, res) => {
   res.status(200).send("<h3>mainPage</h3>");
 });
 
-app.post("/register", validators, UserRegister.register);
+app.post("/register", registerValidators, UserRegister.register);
+app.post("/login", loginValidators, UserRegister.login);
 
 
 app
