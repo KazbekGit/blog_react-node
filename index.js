@@ -20,12 +20,23 @@ app.get("/", (req, res) => {
   res.status(200).send("<h3>mainPage</h3>");
 });
 
-app.post("/register", registerValidators, UserRegister.register);
-app.post("/login", loginValidators, UserRegister.login);
-
+app.post("/register", registerValidators, async (req, res) => {
+  try {
+    UserRegister.register;
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+app.post("/login", loginValidators, async (req, res) => {
+  try {
+    UserRegister.login;
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 app
-  .listen(process.env.DB_PORT, async () => {
+  .listen(process.env.DB_PORT || 5000, async () => {
     console.log(`Server started on port ${process.env.DB_PORT}`);
     console.log(`Connecting to DB...`);
 
