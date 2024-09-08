@@ -3,6 +3,24 @@ import UserModel from "../models/User.js";
 import { getPassHash, createToken } from "../utils.js";
 import bcrypt from "bcrypt";
 
+
+export const getProfile = async (req, res) => {
+  if (!req.userId) return res.status(400).json({ err: "User ID is not exist" });
+  try {
+    const user = await UserModel.findById(req.userId); // Используем await для получения пользователя
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Убираем пароль из объекта пользователя
+    const { password, ...clearUser } = user.toObject(); // Используем toObject() для преобразования в обычный объект
+
+    return res.status(200).json({ user: clearUser }); // Возвращаем очищенные данные пользователя
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const register = async (req, res) => {
   try {
     const { email, password, fullName, avatar } = req.body;
@@ -27,7 +45,7 @@ export const register = async (req, res) => {
 
     const token = createToken(newUser._id);
 
-  // user save to MongoDB
+    // user save to MongoDB
     await newUser.save();
 
     const { password: _, ...newUserRest } = newUser._doc;
