@@ -21,3 +21,21 @@ export const getPassHash = async (password) => {
   const passHash = await bcrypt.hash(password, salt);
   return passHash;
 };
+
+export const isAuth = (req, res, next) => {
+  if (req.headers.authencation) {
+    const token = req.headers.authencation.split(" ")[1];
+    if (token) {
+      jwt.verify(token, process.env.CREATE_TOKEN_KEY, (err, decoded) => {
+        if (err) {
+          return res.status(401).json({ message: "Invalid token" });
+        } else {
+          req.userId = decoded.id;
+          next();
+        }
+      });
+    } else {
+      return res.status(401).json({ message: "No token" });
+    }
+  }
+};

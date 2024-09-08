@@ -1,6 +1,6 @@
 import { pathDB } from "./vars.js";
 import express from "express";
-import { registerValidators, loginValidators } from "./validators/auth.js";
+import { registerValidators, loginValidators } from "./validators/validate.js";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -22,14 +22,14 @@ app.get("/", (req, res) => {
 
 app.post("/register", registerValidators, async (req, res) => {
   try {
-    UserRegister.register;
+    UserRegister.register(req, res);
   } catch (error) {
     console.log(error.message);
   }
 });
 app.post("/login", loginValidators, async (req, res) => {
   try {
-    UserRegister.login;
+    UserRegister.login(req, res);
   } catch (error) {
     console.log(error.message);
   }

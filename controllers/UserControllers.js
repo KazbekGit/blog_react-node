@@ -55,7 +55,7 @@ export const login = async (req, res) => {
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) return res.json({ error: "Please input valid data" });
-    const token = getToken(user._id);
+    const token = createToken(user._id);
     const { password: _, ...userRest } = user.toObject();
 
     res.status(200).json({ userRest, token });
