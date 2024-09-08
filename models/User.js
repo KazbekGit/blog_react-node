@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 import crypto from "crypto";
 import { getPassHash } from "../utils.js";
 
-console.log(crypto.randomBytes(64).toString("hex"));
-
 const UserSchema = new mongoose.Schema(
   {
     fullName: { type: String, required: true },
