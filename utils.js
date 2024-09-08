@@ -23,8 +23,8 @@ export const getPassHash = async (password) => {
 };
 
 export const isAuth = (req, res, next) => {
-  if (req.headers.authencation) {
-    const token = req.headers.authencation.split(" ")[1];
+  if (req.headers.authorization) {
+    const token = req.headers.authorization.split(" ")[1];
     if (token) {
       jwt.verify(token, process.env.CREATE_TOKEN_KEY, (err, decoded) => {
         if (err) {
