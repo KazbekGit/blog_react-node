@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import UserModel from "../models/User.js";
-import { getPassHash, createToken } from "../utils.js";
+import { createToken } from "../utils.js";
 import bcrypt from "bcrypt";
 
 export const getProfile = async (req, res) => {

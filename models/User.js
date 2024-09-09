@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
 import { getPassHash } from "../utils.js";
 
 const UserSchema = new mongoose.Schema(
