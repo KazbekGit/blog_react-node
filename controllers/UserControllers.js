@@ -3,7 +3,6 @@ import UserModel from "../models/User.js";
 import { getPassHash, createToken } from "../utils.js";
 import bcrypt from "bcrypt";
 
-
 export const getProfile = async (req, res) => {
   if (!req.userId) return res.status(400).json({ err: "User ID is not exist" });
   try {
