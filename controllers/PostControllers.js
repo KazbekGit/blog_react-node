@@ -1,3 +1,5 @@
-export const createPost = () => {
-    
+export const createPost = (req, res) => {
+    const post = {
+        
+    }
 }

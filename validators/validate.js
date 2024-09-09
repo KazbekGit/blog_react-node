@@ -21,3 +21,22 @@ export const loginValidators = [
     .isLength({ min: 3, max: 30 })
     .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
 ];
+
+export const postValidators = [
+  body("title", "Title length must be more then 3 chars").isString().isLength({
+    min: 3,
+    max: 250,
+  }),
+  body("body", "Body length must be more then 3 chars").isString().isLength({
+    min: 3,
+    max: 750,
+  }),
+  body("author", "Auther name length must be more then 3 chars")
+    .isString()
+    .isLength({
+      min: 3,
+      max: 30,
+    }),
+  body("tags", "must be array").optional().isArray(),
+  body("views", "must be integer").optional().isInt({ gt: 0 }),
+];

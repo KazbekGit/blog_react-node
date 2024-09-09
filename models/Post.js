@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const PostSchema = new mongoose.Schema({
-  header: {
+  title: {
     type: String,
     required: true,
   },
-  title: {
+  body: {
     type: String,
     required: true,
   },
@@ -13,6 +13,12 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  tags: {
+    type: Array,
+  },
+  imgURL: {
+    type: String,
+  }
 });
 
 export default mongoose.model("Post", PostSchema);
