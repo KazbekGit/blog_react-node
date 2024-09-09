@@ -31,7 +31,7 @@ app.post("/register", registerValidators, UserController.register);
 app.post("/login", loginValidators, UserController.login);
 app.get("/user/profile", isAuth, UserController.getProfile);
 
-app.post("posts", isAuth, postValidators, PostControllers.createPost);
+app.post("/posts", isAuth, postValidators, PostControllers.createPost);
 
 app
   .listen(PORT, async () => {

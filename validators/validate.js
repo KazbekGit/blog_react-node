@@ -31,12 +31,6 @@ export const postValidators = [
     min: 3,
     max: 750,
   }),
-  body("author", "Auther name length must be more then 3 chars")
-    .isString()
-    .isLength({
-      min: 3,
-      max: 30,
-    }),
   body("tags", "must be array").optional().isArray(),
   body("views", "must be integer").optional().isInt({ gt: 0 }),
 ];
