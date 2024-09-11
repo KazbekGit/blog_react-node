@@ -32,6 +32,9 @@ app.post("/login", loginValidators, UserController.login);
 app.get("/user/profile", isAuth, UserController.getProfile);
 
 app.post("/posts", isAuth, postValidators, PostControllers.createPost);
+app.get("/posts", isAuth, postValidators, PostControllers.getAllPosts);
+app.get("/posts/:id", isAuth, postValidators, PostControllers.getOnePost);
+app.delete("/posts/:id", isAuth, postValidators, PostControllers.deletePost);
 
 app
   .listen(PORT, async () => {
