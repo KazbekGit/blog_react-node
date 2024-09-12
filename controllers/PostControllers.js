@@ -62,16 +62,61 @@ export const getOnePost = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
+  const postId = req.params.id;
+
+  if (!postId) {
+    return res.status(400).json({ message: "Post ID is required" });
+  }
+
   try {
-    const result = PostModel.deleteOne({ _id: req.params.id });
-    if (result.deletedCount === 0)
-      return res.status(400).json({ message: "The post is not found" });
-    else {
-      return res
-        .status(200)
-        .json({ message: "The post is successfull deleted" });
+    const result = await PostModel.deleteOne({ _id: postId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "The post is not found" });
     }
+
+    return res
+      .status(200)
+      .json({ message: "The post is successfully deleted" });
   } catch (error) {
+    console.error(`Error deleting post with ID ${postId}:`, error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateOne = async (req, res) => {
+  if (!req.params.id)
+    return res.status(400).json({ err: `Post ID is required` });
+  const { title, body, tags, avatarURL } = req.body;
+
+  try {
+    const updatedPost = {};
+    if (title) updatedPost.title = title;
+    if (body) updatedPost.body = body;
+    if (tags) updatedPost.tags = tags;
+    if (avatarURL) updatedPost.avatarURL = avatarURL;
+    updatedPost.author = req.userId;
+
+    if (Object.keys(updatedPost).length === 1)
+      return res
+        .status(400)
+        .json({ err: "At least one field is require to update" });
+
+    const result = await PostModel.updateOne(
+      { _id: req.params.id },
+      {
+        $set: {
+          ...updatedPost,
+        },
+      }
+    );
+
+    if (result.matchedCount === 0)
+      return res.status(404).json({ err: "Can't update post" });
+
+    res.status(200).json({ message: "Post was updated" });
+  } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ err: error.message });
   }
 };
