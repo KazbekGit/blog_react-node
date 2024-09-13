@@ -3,14 +3,14 @@ import { getPassHash } from "../utils.js";
 
 const UserSchema = new mongoose.Schema(
   {
-    fullName: { type: String, required: true },
+    fullName: { type: String, required: [true, "Fullname mistake from Schema"] },
     email: {
       type: String,
       required: true,
       unique: true,
       match: /.+\@.+\..+/,
     },
-    password: { type: String, required: true },
+    password: { type: String, required: [true, "Passsword mistake from Schema"] },
     avatar: {
       type: String,
       required: false,

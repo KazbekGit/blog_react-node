@@ -1,18 +1,29 @@
 import { body } from "express-validator";
 
-export const registerValidators = [
-  body("fullName", "name is not valid")
+export const registerUserValidators = [
+  body("fullName")
     .isLength({ min: 3, max: 30 })
-    .matches(/^[a-zA-Z0-9\s\-\_\.\,]+$/),
-  body("email", "email is not valid")
+    .withMessage("Username 3 - 30 chars")
+    .matches(/^[a-zA-Z0-9\s\-\_\.\,]+$/)
+    .notEmpty()
+    .withMessage("Username cannot be empty or consist of spaces")
+    .trim(),
+  body("email")
     .isEmail()
+    .withMessage("Email cannot be empty or consist of spaces")
     .isLength({ min: 3, max: 30 })
-    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    .notEmpty()
+    .trim(),
   body(
     "password",
     "Пароль должен содержать хотя бы 8 спецсимволов, бб, мб и т.д. и т.п."
-  ).isLength({ min: 3, max: 30 }),
-  body("avatar", "avatar must be URL").optional().isURL(),
+  )
+    .isLength({ min: 3, max: 30 })
+    .notEmpty()
+    .withMessage("Pass cannot be empty or consist of spaces")
+    .trim(),
+  body("avatar", "avatar must be URL").optional().isURL().notEmpty().trim(),
 ];
 
 export const loginValidators = [

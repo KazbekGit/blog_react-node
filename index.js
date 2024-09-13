@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  registerValidators,
+  registerUserValidators,
   loginValidators,
   postValidators,
 } from "./validators/validate.js";
@@ -28,14 +28,16 @@ app.get("/", (req, res) => {
   res.status(200).send("<h3>mainPage</h3>");
 });
 
-app.post("/register", registerValidators, UserController.register);
+app.post("/register", registerUserValidators, UserController.register);
 app.post("/login", loginValidators, UserController.login);
-app.get("/user/profile", isAuth, UserController.getProfile);
 
+app.get("/posts", postValidators, PostControllers.getAllPosts);
+app.get("/posts/:id", postValidators, PostControllers.getOnePost);
+
+app.get("/user/profile", isAuth, UserController.getProfile);
 app.post("/posts", isAuth, postValidators, PostControllers.createPost);
-app.get("/posts", isAuth, postValidators, PostControllers.getAllPosts);
-app.get("/posts/:id", isAuth, postValidators, PostControllers.getOnePost);
 app.delete("/posts/:id", isAuth, postValidators, PostControllers.deletePost);
+app.patch("/posts/:id", isAuth, postValidators, PostControllers.updatePost);
 
 app
   .listen(PORT, async () => {
