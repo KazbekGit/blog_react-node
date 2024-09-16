@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator";
 import UserModel from "../models/User.js";
 import { createToken } from "../utils.js";
 import bcrypt from "bcrypt";
@@ -23,11 +22,6 @@ export const getProfile = async (req, res) => {
 export const register = async (req, res) => {
   try {
     const { email, password, fullName, avatar } = req.body;
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
 
     const currUser = await UserModel.findOne({ email: email });
     if (currUser)
@@ -59,11 +53,6 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   const { email, password } = req.body;
   try {
     const user = await UserModel.findOne({ email });
