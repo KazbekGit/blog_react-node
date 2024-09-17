@@ -23,7 +23,6 @@ app.use("uploads", express.static("uploads"));
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "upload");
-    ("upload");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
@@ -61,7 +60,6 @@ app.delete(
   "/posts/:id",
   isAuth,
   postValidators,
-  validateResult,
   PostControllers.deletePost
 );
 app.patch(
@@ -72,7 +70,7 @@ app.patch(
   PostControllers.updatePost
 );
 
-app.post("/upload", isAuth, upload.single("file"), (req, res) => {
+app.get("/upload", isAuth, upload.single("file"), (req, res) => {
   if (!req.file) return res.status(400).json({ err: "File was not uploaded" });
   return res.status(200).json({ message: "File was successfully uploaded" });
 });
