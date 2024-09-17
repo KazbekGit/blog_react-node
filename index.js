@@ -15,10 +15,10 @@ import multer from "multer";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.DB_PORT || 5000;
 
 app.use(express.json());
-app.use("uploads", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -70,7 +70,7 @@ app.patch(
   PostControllers.updatePost
 );
 
-app.get("/upload", isAuth, upload.single("file"), (req, res) => {
+app.get("/uploads", upload.single("file"), (req, res) => {
   if (!req.file) return res.status(400).json({ err: "File was not uploaded" });
   return res.status(200).json({ message: "File was successfully uploaded" });
 });
