@@ -15,7 +15,7 @@ import multer from "multer";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.DB_PORT || 5000;
+const PORT = process.env.DB_PORT || 3001;
 
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
@@ -31,12 +31,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.use(
-  cors({
-    origin: `http://localhost:${PORT}`,
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.status(200).send("<h3>mainPage</h3>");
@@ -56,12 +51,7 @@ app.post(
   validateResult,
   PostControllers.createPost
 );
-app.delete(
-  "/posts/:id",
-  isAuth,
-  postValidators,
-  PostControllers.deletePost
-);
+app.delete("/posts/:id", isAuth, postValidators, PostControllers.deletePost);
 app.patch(
   "/posts/:id",
   isAuth,
