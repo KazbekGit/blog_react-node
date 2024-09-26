@@ -34,7 +34,7 @@ export const getAllPosts = async (req, res) => {
       })
       .select("-__v")
       .lean();
-    return res.status(200).json({ posts });
+    return res.status(200).send( posts );
   } catch (error) {
     return res.status(200).json({ err: error.message });
   }
